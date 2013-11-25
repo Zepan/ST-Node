@@ -1,0 +1,163 @@
+使用方法：
+1、stm8_tsl_conf_RC_TOADAPT.h或stm8_tsl_conf_CT_TOADAPT.h改名为stm8_tsl_conf.h
+2、主函数包含 stm8_tsl_api.h
+3、添加所有库文件，但下列只添加其一：
+	stm8_tsl_rc_acquisition.c，stm8l10x_tsl_ct_acquisition.c，
+	stm8l15x_tsl_ct_acquisition.c，stm8l15x_tsl_ct_hw_acquisition.c 
+4、TSL_Init();		//触控库初始化
+	Init_keys();	//按键初始化
+		sSCKeyInfo[i].Setting.b.IMPLEMENTED = 1;
+		sSCKeyInfo[i].Setting.b.ENABLED = 1;
+		sSCKeyInfo[i].DxSGroup = 0x01;
+5、在主循环中调用TSL_Action();	//周期性调用获取按键状态
+
+主状态机状态：TSLState，以下状态顺序执行
+	TSL_IDLE_STATE	//完成了检测，可以读取稳定的状态   
+	TSL_SCKEY_P1_ACQ_STATE	//端口1正获取   
+	TSL_SCKEY_P1_PROC_STATE //端口1正处理  
+	TSL_SCKEY_P2_ACQ_STATE   
+	TSL_SCKEY_P2_PROC_STATE   
+	TSL_SCKEY_P3_ACQ_STATE   
+	TSL_SCKEY_P3_PROC_STATE   
+	TSL_MCKEY1_ACQ_STATE   
+	TSL_MCKEY2_ACQ_STATE   
+	TSL_MCKEY_PROC_STATE   
+	TSL_ECS_STATE  //环境控制系统正处理
+	
+除抖滤波器：
+DETECTION_INTEGRATOR_DEFAULT : 0，不滤波，检测一次；1，检测2次
+END_DETECTION_INTEGRATOR_DEFAULT : 
+RECALIBRATION_INTEGRATOR_DEFAULT : 最小为1
+
+环境控制系统：
+DxS：只检查一组中的一个键
+IIR滤波器
+
+多路按键校正
+#define MCKEY1_DELTA_COEFF_A (0x0119)	//高字节整数部分，低字节小数部分
+
+按键状态：
+单键：
+sSCKeyInfo[] 
+typedef struct
+{
+	KeyState_T State;          /**< 按键状态结构体*/
+	KeyFlag_T Setting;         /**< 按键设置结构体 */
+	u8 Counter;                /**< 积分用计数器 */
+	u8 DxSGroup;               /**< 按键组号 */
+	Channel_Info_T Channel;    /**< 通道结构体 */
+	s8 DetectThreshold;        /**< 检测门限值 */
+	s8 EndDetectThreshold;     /**< 结束检测门限次数 */
+	s8 RecalibrationThreshold; /**< 校准门限 */
+}
+Single_Channel_Complete_Info_T;
+
+//KeyFlag_T共用体宏定义，含位域。
+typedef union
+{
+	u16 whole;
+	struct { 
+	   unsigned   CHANGED: 1 	//按键改变
+	   unsigned   DETECTED: 1 	//按键按下
+	   unsigned   DIRECTION: 1 	//库函数内部用途
+	   unsigned   ENABLED: 1 	//按键使能
+	   unsigned   ERROR: 1 		//按键有错误
+	   unsigned   IMPLEMENTED: 1 //按键实施
+	   unsigned   LOCKED: 1 	//库函数内部用途
+	   unsigned   MCKEY_TYPE: 1 //指示多通道按键类型，0为滑环，1为滑条
+	   unsigned   NOISE: 1 		//指示按键测量过程中有噪声
+	   unsigned   POSCHANGED: 1 //指示多通道按键改变
+	   ……	//保留
+	}b; 
+}KeyFlag_T;
+
+//KeyState_T共用体宏定义，含位域
+typedef union
+{
+    u8 whole;
+	struct { 
+	   unsigned   CALIBRATION: 1 	//按键正在校准 
+	   unsigned   DETECTED: 1 		//按键检测到
+	   unsigned   DISABLED: 1 		//按键被失能
+	   unsigned   ERROR: 1 			//按键有错误
+	   unsigned   IDLE: 1 			//按键空闲
+	   unsigned   POST_STATE: 1 	//按键正在检测
+	   unsigned   PRE_STATE: 1 		//按键在预校准或预检测
+	   unsigned   RESERVED: 1 		//保留 
+	}  b; 
+} KeyState_T;
+
+
+
+
+时基：
+TSL_Tick_Base : 0.5us自增一次，0~19计数，TSL_Timer_ISR()完成.
+TSL_Tick_10ms : 10ms自增一次，0~9计数
+TSL_Tick_100ms : 100ms自增一次，0~9计数。 
+
+SCKEY_DETECTTHRESHOLD_DEFAULT
+	默认检测门限值，大于则按下，1~127，越低灵敏度越高，典型10.
+SCKEY_ENDDETECTTHRESHOLD_DEFAULT
+	结束检测次数，小于则未按下，典型8
+SCKEY_RECALIBRATIONTHRESHOLD_DEFAULT
+	校准门限值，差值小于该值时校准，典型-10
+MCKEY_DETECTTHRESHOLD_DEFAULT	30
+MCKEY_ENDDETECTTHRESHOLD_DEFAULT	20
+MCKEY_RECALIBRATIONTHRESHOLD_DEFAULT	-20
+
+MCKEY_RESOLUTION_DEFAULT
+MCKEY_DIRECTION_CHANGE_ENABLED
+MCKEY_DIRECTION_CHANGE_MAX_DISPLACEMENT
+MCKEY_DIRECTION_CHANGE_INTEGRATOR_DEFAULT
+MCKEY_DIRECTION_CHANGE_THRESHOLD_DEFAULT
+
+DETECTION_INTEGRATOR_DEFAULT
+	检测积分器，0~255，相当于低通滤波，典型2
+END_DETECTION_INTEGRATOR_DEFAULT
+	结束检测积分器，0~255，相当于低通滤波，典型2
+RECALIBRATION_INTEGRATOR_DEFAULT
+	校准积分器，典型10
+
+ECS_TIME_STEP_DEFAULT
+	IIR采样频率，10ms为单位，1~255，典型20
+ECS_TEMPO_DEFAULT
+	检测后的延迟，100ms为单位，典型20
+ECS_IIR_KFAST_DEFAULT
+	快速滤波器的K参数，1~255，典型20，越大反应越快
+ECS_IIR_KSLOW_DEFAULT
+	慢速滤波器的K参数，1~255，典型10
+Yn = (1 - K) . Yn-1 + (K . Xn)
+
+DTO_DEFAULT
+	检测超时时间，单位1S，0~255，典型0（无限）
+
+NEGDETECT_AUTOCAL
+	自动校准，1使能，0失能
+
+SCKEY_MIN_ACQUISITION
+	最小获取值，0~65535，典型50
+SCKEY_MAX_ACQUISITION
+	最大获取值，0~65535，典型3000
+MCKEY_MIN_ACQUISITION
+MCKEY_MAX_ACQUISITION
+
+MCKEY1_DELTA_COEFF_A to MCKEY1_DELTA_COEFF_H 多通道按键校正
+MCKEY2_DELTA_COEFF_A to MCKEY2_DELTA_COEFF_H
+
+IT_SYNC
+	中断同步，1使能
+	
+SCKEY_ACQ_NUM
+	检测每个按键的次数（每次又有若干次充放电过程），1~255，典型3
+SCKEY_ADJUST_LEVEL
+	取得的计数值除以2^SCKEY_ADJUST_LEVEL得到最终值用于计算差值，0~255，典型1，与SCKEY_ACQ_NUM有关
+MCKEY_ACQ_NUM
+MCKEY_ADJUST_LEVEL
+MAX_REJECTED_MEASUREMENTS
+	最大拒绝次数，SCKEY_ACQ_NUM次检测中最多出现这么多次（充放电）错误是准许的。
+MAX_MEAS_COEFF
+	最大原始计数值，高字节整数部分，低字节小数部分
+MIN_MEAS_COEFF
+	最小原始计数值，高字节整数部分，低字节小数部分
+主动屏蔽
+

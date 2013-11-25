@@ -1,0 +1,52 @@
+选项字说明：
+OPT0	0x4800	读保护ROP，写0xaa使能读保护
+OPT1	0x4801	用户启动代码区域UBC
+OPT2	0x4803	可选功能重映射AFR
+OPT3	0x4805	杂选项
+OPT4	0x4807	时钟选项
+OPT5	0x4809	外部时钟启动时间
+UniqueID	0x4865~0x4870 96位
+
+//以下为103F系列（20pin）
+AFR7
+0: AFR7 重映射选项字不激活，默认功能，下同。
+1: PC3 = TIM1_CH1N, PC4 = TIM1_CH2N.
+AFR6
+保留
+AFR5
+保留
+AFR4
+1: PB4 = ADC_ETR; PB5 = TIM1_BKIN.
+AFR3
+1: PC3 = TLI.
+AFR2 
+1: PC4 = AIN2, PD2 = AIN3.
+AFR1
+1: PA3 = SPI_NSS, PD2 = TIM2_CH3.
+AFR0
+1: PC5 = TIM2_CH1, PC6 = TIM1_CH1, PC7 = TIM1_CH2.
+
+//以下为105系列
+AFR7
+0: AFR7 重映射选项字不激活，默认功能，下同。
+1: 	Port D4 = BEEP.
+AFR6 
+1: 	Port B5 = I2C_SDA; 
+	port B4 = I2C_SCL.
+AFR5 
+1: 	Port B3 = TIM1_ETR; 
+	port B2 = TIM1_NCC3;
+	port B1 = TIM1_CH2N; 
+	port B0 = TIM1_CH1N.
+AFR4
+1: 	Port D7 = TIM1_CH4.
+AFR3 
+1: Port D0 = TIM1_BKIN.
+AFR2
+1: Port D0 = CLK_CCO.
+	备注: AFR2优先级高于AFR3，如果同时激活，以AFR2为准
+AFR1
+1: 	Port A3 = TIM3_CH1; 
+	port D2 = TIM2_CH3.
+AFR0
+1: Port D3 = ADC_ETR.

@@ -1,0 +1,19 @@
+EEPROM说明
+STM8S的EEPROM以32bit字长为基础组织起来，
+对于小容量(8K及以下)器件，有640字节EEPROM，每页64字节，共10页，其中包括1页的选项字。
+对于小容量(16~32K)器件，有1K字节EEPROM，每页512字节，共2页，其中包括1页的选项字。
+对于小容量(64~128K)器件，有1~2K字节EEPROM，每页512字节，共4页，其中包括1页的选项字。
+
+器件复位后，通过对FLASH_DUKR寄存器连续写入MASS密匙来解除DATA区域的写保护
+两个密匙是：0x56,0xAE（程序存储器中顺序写入，EEPROM则反一下）
+写保护解除后，FLASH_IAPSR的DUL位被置一。
+
+使用EEPROM相关库函数时，需先取消stm8s.h中对RAM_EXECUTION的注释(宏定义为1)
+
+写：
+ee_p=(u8 *)0x4000; //指向EEPROM第一个单元
+*ee_p=data;
+while((FLASH->IAPSR & 0x04) == 0); // 等待写操作成功
+读：
+data=*ee_p
+ 		
