@@ -53,73 +53,73 @@
 #define PIN6 GPIO_PIN_6
 #define PIN7 GPIO_PIN_7
 
-#define PAout 	 (GPIOA->ODR)
-#define PAin		 (GPIOA->IDR)
-#define PAset(n) (GPIOA->ODR|=(n));
-#define PAclr(n) (GPIOA->ODR&=~(n));
-#define PAneg(n) (GPIOA->ODR^=(n));
-#define PAin_Pin(n)	 ((BitStatus)(GPIOA->IDR&(n))
+#define PA_out 	 (GPIOA->ODR)
+#define PA_in    (GPIOA->IDR)
+#define PAset(n) (GPIOA->ODR|=(1<<n));
+#define PAclr(n) (GPIOA->ODR&=~(1<<n));
+#define PAneg(n) (GPIOA->ODR^=(1<<n));
+#define PAin(n)	 ((BitStatus)(GPIOA->IDR&(1<<n)))
 
-#define PBout 	 (GPIOB->ODR)
-#define PBin		 (GPIOB->IDR)
-#define PBset(n) (GPIOB->ODR|=(n));
-#define PBclr(n) (GPIOB->ODR&=~(n));
-#define PBneg(n) (GPIOB->ODR^=(n));
-#define PBin_Pin(n)	 ((BitStatus)(GPIOB->IDR&(n))
+#define PB_out 	 (GPIOB->ODR)
+#define PB_in    (GPIOB->IDR)
+#define PBset(n) (GPIOB->ODR|=(1<<n));
+#define PBclr(n) (GPIOB->ODR&=~(1<<n));
+#define PBneg(n) (GPIOB->ODR^=(1<<n));
+#define PBin(n)	 ((BitStatus)(GPIOB->IDR&(1<<n)))
 
-#define PCout 	 (GPIOC->ODR)
-#define PCin		 (GPIOC->IDR)
-#define PCset(n) (GPIOC->ODR|=(n));
-#define PCclr(n) (GPIOC->ODR&=~(n));
-#define PCneg(n) (GPIOC->ODR^=(n));
-#define PCin_Pin(n)	 ((BitStatus)(GPIOC->IDR&(n))
+#define PC_out 	 (GPIOC->ODR)
+#define PC_in    (GPIOC->IDR)
+#define PCset(n) (GPIOC->ODR|=(1<<n));
+#define PCclr(n) (GPIOC->ODR&=~(1<<n));
+#define PCneg(n) (GPIOC->ODR^=(1<<n));
+#define PCin(n)	 ((BitStatus)(GPIOC->IDR&(1<<n)))
 
-#define PDout 	 (GPIOD->ODR)
-#define PDin		 (GPIOD->IDR)
-#define PDset(n) (GPIOD->ODR|=(n));
-#define PDclr(n) (GPIOD->ODR&=~(n));
-#define PDneg(n) (GPIOD->ODR^=(n));
-#define PDin_Pin(n)	 ((BitStatus)(GPIOD->IDR&(n))
+#define PD_out 	 (GPIOD->ODR)
+#define PD_in    (GPIOD->IDR)
+#define PDset(n) (GPIOD->ODR|=(1<<n));
+#define PDclr(n) (GPIOD->ODR&=~(1<<n));
+#define PDneg(n) (GPIOD->ODR^=(1<<n));
+#define PDin(n)	 ((BitStatus)(GPIOD->IDR&(1<<n)))
 
-#define PEout 	 (GPIOE->ODR)
-#define PEin		 (GPIOE->IDR)
-#define PEset(n) (GPIOE->ODR|=(n));
-#define PEclr(n) (GPIOE->ODR&=~(n));
-#define PEneg(n) (GPIOE->ODR^=(n));
-#define PEin_Pin(n)	 ((BitStatus)(GPIOE->IDR&(n))
+#define PE_out 	 (GPIOE->ODR)
+#define PE_in    (GPIOE->IDR)
+#define PEset(n) (GPIOE->ODR|=(1<<n));
+#define PEclr(n) (GPIOE->ODR&=~(1<<n));
+#define PEneg(n) (GPIOE->ODR^=(1<<n));
+#define PEin(n)	 ((BitStatus)(GPIOE->IDR&(1<<n)))
 
-#define PFout 	 (GPIOF->ODR)
-#define PFin		 (GPIOF->IDR)
-#define PFset(n) (GPIOF->ODR|=(n));
-#define PFclr(n) (GPIOF->ODR&=~(n));
-#define PFneg(n) (GPIOF->ODR^=(n));
-#define PFin_Pin(n)	 ((BitStatus)(GPIOF->IDR&(n))
+#define PF_out 	 (GPIOF->ODR)
+#define PF_in    (GPIOF->IDR)
+#define PFset(n) (GPIOF->ODR|=(1<<n));
+#define PFclr(n) (GPIOF->ODR&=~(1<<n));
+#define PFneg(n) (GPIOF->ODR^=(1<<n));
+#define PFin(n)	 ((BitStatus)(GPIOF->IDR&(1<<n)))
 
 #ifdef GPIOG
-#define PGout 	 (GPIOG->ODR)
-#define PGin		 (GPIOG->IDR)
-#define PGset(n) (GPIOG->ODR|=(n));
-#define PGclr(n) (GPIOG->ODR&=~(n));
-#define PGneg(n) (GPIOG->ODR^=(n));
-#define PGin_Pin(n)	 ((BitStatus)(GPIOG->IDR&(n))
+#define PG_out 	 (GPIOG->ODR)
+#define PG_in    (GPIOG->IDR)
+#define PGset(n) (GPIOG->ODR|=(1<<n));
+#define PGclr(n) (GPIOG->ODR&=~(1<<n));
+#define PGneg(n) (GPIOG->ODR^=(1<<n));
+#define PGin(n)	 ((BitStatus)(GPIOG->IDR&(1<<n)))
 #endif
 
 #ifdef GPIOH
-#define PHout 	 (GPIOH->ODR)
-#define PHin		 (GPIOH->IDR)
-#define PHset(n) (GPIOH->ODR|=(n));
-#define PHclr(n) (GPIOH->ODR&=~(n));
-#define PHneg(n) (GPIOH->ODR^=(n));
-#define PHin_Pin(n)	 ((BitStatus)(GPIOH->IDR&(n))
+#define PH_out 	 (GPIOH->ODR)
+#define PH_in    (GPIOH->IDR)
+#define PHset(n) (GPIOH->ODR|=(1<<n));
+#define PHclr(n) (GPIOH->ODR&=~(1<<n));
+#define PHneg(n) (GPIOH->ODR^=(1<<n));
+#define PHin(n)	 ((BitStatus)(GPIOH->IDR&(1<<n)))
 #endif
 
 #ifdef GPIOI
-#define PIout 	 (GPIOI->ODR)
-#define PIin		 (GPIOI->IDR)
-#define PIset(n) (GPIOI->ODR|=(n));
-#define PIclr(n) (GPIOI->ODR&=~(n));
-#define PIneg(n) (GPIOI->ODR^=(n));
-#define PIin_Pin(n)	 ((BitStatus)(GPIOI->IDR&(n))
+#define PI_out 	 (GPIOI->ODR)
+#define PI_in    (GPIOI->IDR)
+#define PIset(n) (GPIOI->ODR|=(1<<n));
+#define PIclr(n) (GPIOI->ODR&=~(1<<n));
+#define PIneg(n) (GPIOI->ODR^=(1<<n));
+#define PIin(n)	 ((BitStatus)(GPIOI->IDR&(1<<n)))
 #endif
 
 //Î»¶¨Òå
