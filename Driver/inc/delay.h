@@ -43,7 +43,7 @@
 #define TICK_FREQ (SYSCLK>>15)
 
 //变量声明
-DELAY_EXTERN u32 systick;
+DELAY_EXTERN volatile u32 systick;
 DELAY_EXTERN u16 d_time;
 
 //函数声明
