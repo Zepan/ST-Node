@@ -1,9 +1,9 @@
 /********************************************************************************
- * ÎÄ¼þÃû  £ºcommon.h
- * ÃèÊö    £º¹«ÓÃº¯ÊýÍ·ÎÄ¼þ  
- * ¿â°æ±¾  £ºV2.0.0
- * ×÷Õß    £ºÔóÅÏÎÞ²Ä  QQ:715805855
- *ÐÞ¸ÄÊ±¼ä £º2012-7-26
+ * ï¿½Ä¼ï¿½ï¿½ï¿½  ï¿½ï¿½common.h
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½  
+ * ï¿½ï¿½ï¿½æ±¾  ï¿½ï¿½V2.0.0
+ * ï¿½ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ²ï¿½  QQ:715805855
+ *ï¿½Þ¸ï¿½Ê±ï¿½ï¿½ ï¿½ï¿½2012-7-26
 **********************************************************************************/
 
 #ifndef __COMMON_H
@@ -12,13 +12,13 @@
 #include "stm8s.h"
 #include <stdio.h>
 
-//²¿·ÖÍâÉè³õÊ¼»¯ÑùÀý£º
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //EXTI
 /*
 	GPIO_Init(GPIOD, GPIO_PIN_4, GPIO_MODE_IN_PU_IT);
 	EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOD, EXTI_SENSITIVITY_FALL_ONLY);
 */
-//ITC,ÉèÖÃÖÐ¶ÏÓÅÏÈ¼¶,ITC_SetSoftwarePriority
+//ITC,ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½È¼ï¿½,ITC_SetSoftwarePriority
 /*
         ITC->ISPR6 &= (0x03<<((ITC_IRQ_UART2_RX%4)*2));
         ITC->ISPR6 |= (ITC_PRIORITYLEVEL_2<<((ITC_IRQ_UART2_RX%4)*2));
@@ -27,23 +27,23 @@
         ITC->ISPR5 |= (ITC_PRIORITYLEVEL_2<<((ITC_IRQ_UART2_RX%4)*2));
 */
 
-//ºê¶¨Òå
-//¾ø¶ÔÖµ
+//ï¿½ê¶¨ï¿½ï¿½
+//ï¿½ï¿½ï¿½ï¿½Öµ
 #define ABS(x)	((x)>=0?(x):(-x))
-//Èý¸öÊýÕÒ×î´óÖµ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 #define MAX(a,b,c)	((a)>(b)?((a)>(c)?(a):(c)):((b)>(c)?(b):(c)))
 #define MAX_INDEX(a,b,c)	((a)>(b)?((a)>(c)?0:2):((b)>(c)?1:2))
 
-//È¡¸ÃµØÖ·ÉÏÏàÓ¦µÄÊý¾ÝÀàÐÍµÄÊý¾Ý
+//È¡ï¿½Ãµï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½
 #define MEM_U8(x) 		(*((u8 *)(x)))
 #define MEM_U16(x) 		(*((u16 *)(x)))
 #define MEM_U32(x) 		(*((u32 *)(x)))
 #define MEM_FLOAT(x) 	(*((float *)(x)))
 
-#define SYSCLK HSI_VALUE  //ÏµÍ³ÆµÂÊ
+#define SYSCLK HSI_VALUE  //ÏµÍ³Æµï¿½ï¿½
 
-//×¢Òâ£ºÓÅ»¯ËÙ¶ÈÓÃºê¶¨Òå£¬ÓÅ»¯¿Õ¼äÓÃ¿âº¯Êý
-//GPIO²Ù×÷
+//×¢ï¿½â£ºï¿½Å»ï¿½ï¿½Ù¶ï¿½ï¿½Ãºê¶¨ï¿½å£¬ï¿½Å»ï¿½ï¿½Õ¼ï¿½ï¿½Ã¿âº¯ï¿½ï¿½
+//GPIOï¿½ï¿½ï¿½ï¿½
 #define PIN0 GPIO_PIN_0
 #define PIN1 GPIO_PIN_1
 #define PIN2 GPIO_PIN_2
@@ -55,74 +55,74 @@
 
 #define PA_out 	 (GPIOA->ODR)
 #define PA_in    (GPIOA->IDR)
-#define PAset(n) (GPIOA->ODR|=(1<<n));
-#define PAclr(n) (GPIOA->ODR&=~(1<<n));
-#define PAneg(n) (GPIOA->ODR^=(1<<n));
+#define PAset(n) (GPIOA->ODR|=(1<<n))
+#define PAclr(n) (GPIOA->ODR&=~(1<<n))
+#define PAneg(n) (GPIOA->ODR^=(1<<n))
 #define PAin(n)	 ((BitStatus)(GPIOA->IDR&(1<<n)))
 
 #define PB_out 	 (GPIOB->ODR)
 #define PB_in    (GPIOB->IDR)
-#define PBset(n) (GPIOB->ODR|=(1<<n));
-#define PBclr(n) (GPIOB->ODR&=~(1<<n));
-#define PBneg(n) (GPIOB->ODR^=(1<<n));
+#define PBset(n) (GPIOB->ODR|=(1<<n))
+#define PBclr(n) (GPIOB->ODR&=~(1<<n))
+#define PBneg(n) (GPIOB->ODR^=(1<<n))
 #define PBin(n)	 ((BitStatus)(GPIOB->IDR&(1<<n)))
 
 #define PC_out 	 (GPIOC->ODR)
 #define PC_in    (GPIOC->IDR)
-#define PCset(n) (GPIOC->ODR|=(1<<n));
-#define PCclr(n) (GPIOC->ODR&=~(1<<n));
-#define PCneg(n) (GPIOC->ODR^=(1<<n));
+#define PCset(n) (GPIOC->ODR|=(1<<n))
+#define PCclr(n) (GPIOC->ODR&=~(1<<n))
+#define PCneg(n) (GPIOC->ODR^=(1<<n))
 #define PCin(n)	 ((BitStatus)(GPIOC->IDR&(1<<n)))
 
 #define PD_out 	 (GPIOD->ODR)
 #define PD_in    (GPIOD->IDR)
-#define PDset(n) (GPIOD->ODR|=(1<<n));
-#define PDclr(n) (GPIOD->ODR&=~(1<<n));
-#define PDneg(n) (GPIOD->ODR^=(1<<n));
+#define PDset(n) (GPIOD->ODR|=(1<<n))
+#define PDclr(n) (GPIOD->ODR&=~(1<<n))
+#define PDneg(n) (GPIOD->ODR^=(1<<n))
 #define PDin(n)	 ((BitStatus)(GPIOD->IDR&(1<<n)))
 
 #define PE_out 	 (GPIOE->ODR)
 #define PE_in    (GPIOE->IDR)
-#define PEset(n) (GPIOE->ODR|=(1<<n));
-#define PEclr(n) (GPIOE->ODR&=~(1<<n));
-#define PEneg(n) (GPIOE->ODR^=(1<<n));
+#define PEset(n) (GPIOE->ODR|=(1<<n))
+#define PEclr(n) (GPIOE->ODR&=~(1<<n))
+#define PEneg(n) (GPIOE->ODR^=(1<<n))
 #define PEin(n)	 ((BitStatus)(GPIOE->IDR&(1<<n)))
 
 #define PF_out 	 (GPIOF->ODR)
 #define PF_in    (GPIOF->IDR)
-#define PFset(n) (GPIOF->ODR|=(1<<n));
-#define PFclr(n) (GPIOF->ODR&=~(1<<n));
-#define PFneg(n) (GPIOF->ODR^=(1<<n));
+#define PFset(n) (GPIOF->ODR|=(1<<n))
+#define PFclr(n) (GPIOF->ODR&=~(1<<n))
+#define PFneg(n) (GPIOF->ODR^=(1<<n))
 #define PFin(n)	 ((BitStatus)(GPIOF->IDR&(1<<n)))
 
 #ifdef GPIOG
 #define PG_out 	 (GPIOG->ODR)
 #define PG_in    (GPIOG->IDR)
-#define PGset(n) (GPIOG->ODR|=(1<<n));
-#define PGclr(n) (GPIOG->ODR&=~(1<<n));
-#define PGneg(n) (GPIOG->ODR^=(1<<n));
+#define PGset(n) (GPIOG->ODR|=(1<<n))
+#define PGclr(n) (GPIOG->ODR&=~(1<<n))
+#define PGneg(n) (GPIOG->ODR^=(1<<n))
 #define PGin(n)	 ((BitStatus)(GPIOG->IDR&(1<<n)))
 #endif
 
 #ifdef GPIOH
 #define PH_out 	 (GPIOH->ODR)
 #define PH_in    (GPIOH->IDR)
-#define PHset(n) (GPIOH->ODR|=(1<<n));
-#define PHclr(n) (GPIOH->ODR&=~(1<<n));
-#define PHneg(n) (GPIOH->ODR^=(1<<n));
+#define PHset(n) (GPIOH->ODR|=(1<<n))
+#define PHclr(n) (GPIOH->ODR&=~(1<<n))
+#define PHneg(n) (GPIOH->ODR^=(1<<n))
 #define PHin(n)	 ((BitStatus)(GPIOH->IDR&(1<<n)))
 #endif
 
 #ifdef GPIOI
 #define PI_out 	 (GPIOI->ODR)
 #define PI_in    (GPIOI->IDR)
-#define PIset(n) (GPIOI->ODR|=(1<<n));
-#define PIclr(n) (GPIOI->ODR&=~(1<<n));
-#define PIneg(n) (GPIOI->ODR^=(1<<n));
+#define PIset(n) (GPIOI->ODR|=(1<<n))
+#define PIclr(n) (GPIOI->ODR&=~(1<<n))
+#define PIneg(n) (GPIOI->ODR^=(1<<n))
 #define PIin(n)	 ((BitStatus)(GPIOI->IDR&(1<<n)))
 #endif
 
-//Î»¶¨Òå
+//Î»ï¿½ï¿½ï¿½ï¿½
 #define BIT0 PIN0
 #define BIT1 PIN1
 #define BIT2 PIN2
